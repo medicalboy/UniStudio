@@ -1,0 +1,24 @@
+.DS_Store
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+application/logs/*
+
+# Runtime/session/cache files
+application/cache/*
+
+# User uploaded files
+uploads/*
+!uploads/.gitkeep
+
+# Database dumps
+*.sql
+
+# IDE files
+.vscode/
+.idea/

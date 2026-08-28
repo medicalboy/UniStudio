@@ -1,0 +1,95 @@
+
+  .auth0-lock.auth0-lock .auth0-lock-overlay {
+    background-color: #660000 !important;
+    background-image: none !important;
+  }
+  .auth0-lock.auth0-lock.auth0-lock-opened .auth0-lock-widget {
+    box-shadow: none !important; 
+  }
+  .auth0-lock-input-block.auth0-lock-input-userReference {
+    display: none;
+  }
+  .auth0-lock.auth0-lock .auth0-lock-header {
+    min-height: 130px !important;
+  }
+  .auth0-lock.auth0-lock .auth0-lock-header-logo {
+		height: 48px !important;
+    margin: 10px 0 20px !important; 
+  }
+  .auth0-lock-social-button-text {
+    text-transform: none !important;
+    font-size: 14px !important;
+  }
+  .auth0-lock-input {
+    font-size: 14px !important;
+  }
+  .auth0-lock-form p {
+    font-size: 14px !important;
+  }
+  .auth0-lock-dce-buttons-container {
+    text-align: center;
+  }
+  a.dce-link:link, a.dce-link:active, a.dce-link:visited {
+    color: #a51c30 !important;
+    text-decoration: none !important;    
+  }
+  a.dce-link:hover {
+    color: #a51c30 !important;
+    text-decoration: underline !important;  
+  }
+  .dce-back-button {
+    padding: 2px !important;
+    border: 1px solid #333 !important;
+  }
+  .dce-signup-instructions {
+    margin-top: 5px !important;
+    text-align: left !important;
+  }
+ 
+	/*.auth0-lock * {*/
+  .auth0-lock-overlay {
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-transition: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .auth0-lock-widget {
+   -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-transition: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+	.auth0-lock-error-invalid-hint {
+    white-space: normal;
+  }
+  .auth0-lock .auth0-loading-screen {
+    display: none !important;
+  }
+  .auth0-lock .auth0-loading-screen-custom {
+    min-height: 42px;
+  }
+  .auth0-lock .auth0-loading-container-custom {
+    position: relative;
+  }
+  .auth0-lock .auth0-loading-container-custom .auth0-loading-custom {
+    position: absolute;
+    top: 4px;
+    left: 44%;
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.4) rgba(0,0,0,0.4) rgba(0,0,0,0.2) rgba(0,0,0,0.2);
+    opacity: 0.9;
+    border-radius: 20px;
+    -webkit-animation: rotate 1s linear infinite !important;
+    animation: rotate 1s linear infinite !important;
+  }
+  .login-btn-placeholder {
+    width: 100%;
+    height: 70px;
+    overflow: hidden;
+    border-radius: 0 0 5px 5px;
+  }
