@@ -1,0 +1,437 @@
+body {
+    background: #fff;
+    color: #212529;
+}
+
+
+/* HERO */
+
+.dashboard-hero {
+    background: #212529;
+    color: #fff;
+    padding: 65px 0;
+}
+
+.dashboard-label,
+.section-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+
+.dashboard-hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.dashboard-hero p {
+    color: #ccc;
+    max-width: 650px;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+
+/* SUMMARY */
+
+.account-summary {
+    margin-top: -30px;
+    position: relative;
+    z-index: 2;
+}
+
+.summary-panel {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    padding: 22px 28px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.summary-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.summary-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+
+    background: #212529;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.summary-user h3 {
+    font-size: 19px;
+    margin: 0 0 3px;
+}
+
+.summary-user p {
+    color: #777;
+    font-size: 13px;
+    margin: 0;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* MAIN DASHBOARD */
+
+.dashboard-section {
+    padding: 70px 0;
+}
+
+.dashboard-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 45px;
+}
+
+
+/* SIDEBAR */
+
+.dashboard-sidebar {
+    width: 235px;
+    min-width: 235px;
+}
+
+.sidebar-heading {
+    padding-bottom: 18px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-heading span {
+    color: #888;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-heading h4 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 0;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: #555;
+    text-decoration: none;
+
+    padding: 11px 12px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    border-radius: 7px;
+}
+
+.sidebar-link:hover {
+    background: #f5f5f5;
+    color: #212529;
+}
+
+.sidebar-link.active {
+    background: #212529;
+    color: #fff;
+}
+
+.sidebar-icon {
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-help {
+    margin-top: 30px;
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.sidebar-help strong {
+    font-size: 14px;
+}
+
+.sidebar-help p {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 6px 0 10px;
+}
+
+.sidebar-help a {
+    color: #212529;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+/* CONTENT */
+
+.dashboard-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-content-header {
+    margin-bottom: 28px;
+}
+
+.dashboard-content-header h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dashboard-content-header p {
+    color: #777;
+    margin-bottom: 0;
+}
+
+
+/* CARDS */
+
+.dashboard-card-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dashboard-card-link:hover {
+    color: inherit;
+}
+
+.dashboard-card {
+    min-height: 225px;
+
+    display: flex;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    border-color: #ccc;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.09);
+}
+
+.dashboard-card-content {
+    width: 66%;
+    padding: 26px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 13px;
+}
+
+.dashboard-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.dashboard-card p {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.card-action {
+    color: #212529;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: auto;
+}
+
+.dashboard-card-image {
+    width: 34%;
+    min-width: 150px;
+    background: #f7f7f7;
+}
+
+.dashboard-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* CTA */
+
+.dashboard-cta {
+    padding: 0 0 70px;
+}
+
+.dashboard-cta-box {
+    background: #212529;
+    color: #fff;
+
+    border-radius: 16px;
+
+    padding: 40px 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.dashboard-cta-box span {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.dashboard-cta-box h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.dashboard-cta-box p {
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+    .dashboard-layout {
+        display: block;
+    }
+
+    .dashboard-sidebar {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .sidebar-menu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .sidebar-help {
+        display: none;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-hero {
+        padding: 45px 0;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 32px;
+    }
+
+    .summary-panel {
+        align-items: flex-start;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .summary-actions {
+        width: 100%;
+    }
+
+    .summary-actions .btn {
+        flex: 1;
+    }
+
+    .dashboard-section {
+        padding: 50px 0;
+    }
+
+    .sidebar-menu {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-cta-box {
+        display: block;
+        padding: 30px;
+    }
+
+    .dashboard-cta-box .btn {
+        margin-top: 20px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .sidebar-menu {
+        display: flex;
+    }
+
+    .dashboard-card {
+        display: block;
+    }
+
+    .dashboard-card-content {
+        width: 100%;
+    }
+
+    .dashboard-card-image {
+        width: 100%;
+        height: 180px;
+    }
+
+}

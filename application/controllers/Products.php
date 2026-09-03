@@ -37,68 +37,76 @@ class Products extends CI_Controller {
 						'logged_in' => true 	//create session variable
 					);
 					$this->session->set_userdata($user_data); //set user status to login in session
-					$this->load->view('videopage'); //if user already logined show main page
+					$this->load->view('header');
+					$this->load->view('course_details'); //if user already logined show main page
 				}
 			}else{
 				$this->load->view('login', $data);	//if username password incorrect, show error msg and ask user to login
 			}
 		}else{
-			$this->load->view('videopage'); //if user already logined show main page
+			$this->load->view('header');
+			$this->load->view('course_details'); //if user already logined show main page
 		}
 		$this->load->view('template/footer');
 	}
 
-	public function loadFile(){
-		$data['fileid'] = $this->input->get('id');
-		$data['ratings'] = '';
-		$this->load->view('videopage',$data);
+
+
+	public function search()
+	{
+		$this->load->model('file_model');
+
+		$keyword = trim($this->input->get('q'));
+
+		if ($keyword === '') {
+			$data['files'] = $this->file_model->get_files();
+		} else {
+			$data['files'] = $this->file_model->search_files($keyword);
+		}
+
+		$data['keyword'] = $keyword;
+
+		$this->load->view('header');
+		$this->load->view('main_page',$data);
+		$this->load->view('footer');
+	}
+
+	public function watch($id)
+	{
+		$this->load->model('file_model');
+		$file = $this->file_model->get_file_by_id($id);
+		if (!$file) {
+			show_404();
+		}
+		$this->file_model->increase_views($id);
+		redirect('products/load_file/' . $id);
+	}
+
+	public function load_file($id){
+		$this->load->model('file_model');
+		$this->load->model('comment_model');
+		$data['file'] = $this->file_model->get_file_by_id($id);
+		$data['comments'] = $this->comment_model->get_comments($id);
+		if (!$data['file']) {
+        show_404();
+    	}
+		$this->load->view('header');
+		$this->load->view('product_details',$data);
+		$this->load->view('footer');
 	}
 
 	public function fetch_detail(){
 		$this->load->model('file_model');
         $data['coursename'] = $this->file_model->do_wishlist();
-		// $data['subject'] = $this->file_model->do_wishlist();
-		// $data['description'] = $this->file_model->do_wishlist();
-		// $data['subject'] = $this->file_model->do_wishlist($query);
-		// $data['description'] = $this->file_model->do_wishlist($query);
 		$this->load->view('header');
 		$this->load->view('wishlist',$data);
 	}
 
-	public function like($name){
-		$this->load->model('file_model');
-        $this->file_model->insert_like($name);
-		redirect(base_url().'welcome');
-	}
 
 	public function clearlist(){
 		$this->load->model('file_model');
         $this->file_model->clear_list();
 		redirect(base_url().'products/fetch_detail');
-	}
-
-	public function rating($vid=NULL){
-		if (!isset($_SESSION['vid']))
-		{
-			$_SESSION['vid'] = $vid;
-		}
-		if ($vid == NULL)
-		{
-			$id = 27;
-		} else
-		{
-			$id = $this->input->get('id');
-		}
-		$id = $_SESSION['vid'];
-		$data['fileid'] = $id;
-		$this->load->model('file_model');
-		$rating=$this->input->post('categories');
-        $this->file_model->insert_rating($rating,$id);
-		$temp = $this->file_model->fetch_rating($id);
-		// echo json_encode($temp);
-		$data['ratings'] = $temp->rating;
-		$this->load->view('videopage',$data);
-		//redirect('products');
 	}
 
 
@@ -114,11 +122,42 @@ class Products extends CI_Controller {
 		redirect(base_url().'products/loadFile/'.$id);
     }
 
+	public function add_comment($id)
+	{
+		if (!$this->session->userdata('logged_in')) {
+			redirect('login');
+		}
+
+		$this->load->model('comment_model');
+
+		$comment = $this->input->post('comment');
+		$username = $this->session->userdata('username');
+
+		if (!empty(trim($comment))) {
+			$this->comment_model->add_comment($id, $username, $comment);
+		}
+
+		redirect('products/load_file/' . $id);
+	}
 
     public function fetchcomment(){
 		$this->load->model('comment_model');
         $data = $this->comment_model->fetch_comment(); 
         echo json_encode ($data->result());
     }
+
+	public function like($id)
+	{
+		$this->load->model('file_model');
+		$this->file_model->increase_likes($id);
+		redirect('products/load_file/' . $id);
+	}
+
+	public function dislike($id)
+	{
+		$this->load->model('file_model');
+		$this->file_model->increase_dislikes($id);
+		redirect('products/load_file/' . $id);
+	}
 }
 ?>

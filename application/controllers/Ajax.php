@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ajax extends CI_Controller {
-    public function fatch()
+    public function fetch()
     {
 		$this->load->model('file_model'); // load file_model 
         $output = '';
@@ -18,7 +18,7 @@ class ajax extends CI_Controller {
             }
     }
 
-    public function fatch_thumbnail(){
+    public function fetch_thumbnail(){
         $query = $this->input->get('filename'); // get num send from ajax form
         $this->load->model('file_model');
         $data = $this->file_model->fetch_images($query); 

@@ -20,8 +20,6 @@ class Weather extends CI_Controller {
 	 */
 	public function index()
 	{	
-		// $data['img_path'] = 'cat2.jpg';
-		// $data['filename'] = 'cat2.jpg';
 		$this->load->view('header');
 		$this->load->view('weather');
 		$this->load->view('footer');

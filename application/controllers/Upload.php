@@ -4,8 +4,7 @@ class Upload extends CI_Controller
 {
     public function index()
     {
-		// $data['error'] = 'cat2.jpg';
-		$this->load->view('signupbar'); 
+		$this->load->view('header'); 
     	if (!$this->session->userdata('logged_in'))//check if user already login
 		{	
 			if (get_cookie('remember')) { // check if user activate the "remember me" feature  
@@ -15,18 +14,17 @@ class Upload extends CI_Controller
 				{
 					$user_data = array('username' => $username,'logged_in' => true );
 					$this->session->set_userdata($user_data); //set user status to login in session
-					$this->load->view('add_course',array('error' => ' ')); //if user already logined show upload page
+					$this->load->view('file',array('error' => ' ')); //if user already logined show upload page
 				}
 			}else{
 				redirect('login'); //if user already logined direct user to home page
 			}
 		}else{
-			$this->load->view('add_course',array('error' => ' ')); //if user already logined show login page
+			$this->load->view('file',array('error' => ' ')); //if user already logined show login page
 		}
 		$this->load->view('template/footer');
     }
-    public function do_upload() {
-		// $data['error'] = 'cat2.jpg';
+    public function upload_file() {
 		$this->load->model('file_model');
         $config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'png|jpg|mp4|mkv';
@@ -36,24 +34,17 @@ class Upload extends CI_Controller
 		$this->load->library('upload', $config);
 		$subject = $this->input->post('subject'); 
 		$message = $this->input->post('message'); 
-		if ( ! $this->upload->do_upload('userfile')) {
-			// $this->load->view('header_signup');
+		if (!$this->upload->do_upload('userfile')) {
+			$this->load->view('header');
 			$data = array('error' => $this->upload->display_errors());
-            $this->load->view('add_course', $data);
-			// $this->load->view('file', array('error' => 'File upload success. <br/>'));
-			// $this->load->view('template/footer');
+            $this->load->view('file', $data);
+			$this->load->view('footer');
 		}else{
-			$this->file_model->upload($this->upload->data('file_name'), $this->upload->data('full_path'),$this->session->userdata('username'),$subject,$message);
-			$this->load->view('header_signup');
-			// $this->load->view('file', array('error' => 'File upload success. <br/>'));
-			// $this->load->view('template/footer');
-        }
-		$this->load->library('upload', $config);
-		if ( ! $this->upload->do_upload('userfilevideo')) {
-
-        } else {
-			$this->file_model->upload_video($this->upload->data('file_name'), $this->upload->data('full_path'),$this->session->userdata('username'));
-			// $this->load->view('header_signup');
+			$this->file_model->upload($this->upload->data('file_name'), 
+			$this->upload->data('full_path'),
+			$this->upload->data('file_type'),
+			$this->session->userdata('username'),$subject,$message);
+			redirect('welcome');
         }
 	}
 }

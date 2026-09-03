@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Add_course extends CI_Controller {
+class dashboard extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -19,12 +19,9 @@ class Add_course extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index()
-	{	
-		// $data['img_path'] = 'cat2.jpg';
-		// $data['filename'] = 'cat2.jpg';
-		// $this->load->view('header');
-        $data['error'] = '';
-		$this->load->view('add_course',$data);
+	{
+		$this->load->view('header');
+		$this->load->view('dashboard');
 		$this->load->view('footer');
 	}
 }

@@ -37,7 +37,7 @@ class Email extends CI_Controller
         $this->email->cc('lihao020118@gmail.com');
         $message = "For demo purpose only!!";// $this->table->generate($data);
         $hash = md5(rand(0,1000));// $this->table->generate($data);
-        $link ='https://infs3202-200a663b.uqcloud.net/Unisee/email/verify_token?token='.$hash;
+        $link ='https://infs3202-200a663b.uqcloud.net/Unisee/email/verify_email?token='.$hash;
         $this->user_model->insert_token(0,$hash);
         $this->email->subject('Web Information Systems Email Test');
         $this->email->message($link);

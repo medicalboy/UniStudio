@@ -6,25 +6,32 @@
     public function login($username, $password){
         // Validate
         $this->db->where('username', $username);
-        $this->db->where('password', $password);
-        $result = $this->db->get('users');
+        $query = $this->db->get('users');
 
-        if($result->num_rows() == 1){
-            return true;
-        } else {
+        if ($query->num_rows() !== 1) {
             return false;
         }
+        $user = $query->row();
+        if ($user->email_verified != 1) {
+            return false;
+        }
+        return password_verify($password, $user->password);
     }
 
 
     // sign up
-    public function signup($username,$email,$password){
+    public function signup($username,$email,$password,$token)
+    {
         $data = array(
             'username' => $username,
             'email' => $email,
-            'password' => $password
+            'password' => password_hash($password,PASSWORD_DEFAULT),
+            'email_verified' => 0,
+            'verification_token' => hash('sha256',$token),
+            'verification_expires' => date('Y-m-d H:i:s',time() + 3600)
         );
-        $query = $this->db->insert('users', $data);
+
+        return $this->db->insert('users',$data);
     }
 
     public function check_signup($username,$email){
@@ -35,17 +42,6 @@
             return false;
         } else {
             return true;
-        }
-    }
-
-    public function decode_password($username,$password){
-        $this->db->select('password');
-        $this->db->from("users");
-        $this->db->where('username', $username);
-        $query=$this->db->get();
-        foreach ($query->result() as $row)
-        {
-            return $row->password;
         }
     }
 
@@ -62,59 +58,37 @@
     }
 
     public function update_info($username,$email)
+        {
+            $data = array(
+                'username'  => $username,
+                'email'  => $email
+            );
+            $this->db->replace('users', $data);    
+        }
+
+    public function verify_email_token($token)
     {
-        $data = array(
-            'username'  => $username,
-            'email'  => $email
-        );
-        $this->db->replace('users', $data);    
-    }
+        $hashed_token = hash('sha256',$token);
 
-    public function insert_token($uid,$token){
-        $data = array(
-            'verified_code' => $token,
-            'id' => $uid,
-        );
-        $query = $this->db->insert('code', $data);
-    }
+        $this->db->where('verification_token',$hashed_token);
+        $this->db->where('verification_expires >=',date('Y-m-d H:i:s'));
+        $query = $this->db->get('users');
 
-
-    public function check_email($token)
-    {
-        $this->db->where('verified_code', $token);
-        $result = $this->db->get('code');
-        if($result->num_rows() == 1){
-            return true;
-        } else {
+        if ($query->num_rows() !== 1) {
             return false;
         }
+
+        $user = $query->row();
+
+        $this->db->where('id',$user->id);
+
+        return $this->db->update('users',array(
+            'email_verified' => 1,
+            'verification_token' => NULL,
+            'verification_expires' => NULL
+        ));
     }
-
-
-    // public function email_verify(){
-    //     $token = $this->input->get("token");
-    //     echo $token;
-    // }
-
-    // public function reset_password(){
-    //     $cofig=array{
-
-    //     }
-
-    //     $this->email->initialize($config);
-    //     $this->email->initialize($config);
-    //     $hash=md5(rand(0,1000));
-        // $link ='reset?token='.$hash;
-    // }
-
-
-    // public function insert_token($uid,$token){
-    //     $token = $this->input->get("token");
-    //     echo $token;
-    // }
-
-    // public function verify_token($token){
-    //     //检查这个token在不在db，存在return true and delete,
-    // }
 }
+
+
 ?>

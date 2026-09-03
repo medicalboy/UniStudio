@@ -1,68 +1,324 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  </head>
-  <body>
-<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content rounded-5 shadow">
-      <div class="modal-header p-5 pb-4 border-bottom-0">
+    <title>Create Account | UniStudio</title>
 
-        <!-- <h5 class="modal-title">Modal title</h5> -->
-        <h2 class="fw-bold mb-0">Sign up for free</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <?php echo form_open(base_url().'signup/do_signup'); ?>
-        <div class="modal-body p-5 pt-0">
-          <form class="">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com" name="fullname">
-              <label for="floatingInput">Full name</label>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="<?= base_url('assets/css/signup.css') ?>"
+    >
+</head>
+
+<body>
+
+<div class="signup-page">
+
+    <!-- LEFT SIDE -->
+    <section class="signup-brand">
+
+        <a href="<?= base_url() ?>" class="brand-logo">
+            UniStudio
+        </a>
+
+        <div class="brand-content">
+
+            <span class="brand-label">
+                Join UniStudio
+            </span>
+
+            <h1>
+                Learn, share and grow with your community.
+            </h1>
+
+            <p class="brand-description">
+                Create your free account to discover learning resources,
+                upload products and build your own channel.
+            </p>
+
+
+            <div class="benefit-list">
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>Discover resources</strong>
+
+                        <p>
+                            Browse products and learning content
+                            shared by the community.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>Build your channel</strong>
+
+                        <p>
+                            Upload your own products and manage
+                            your personal creator channel.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>Connect with others</strong>
+
+                        <p>
+                            Comment, review and interact with
+                            tutors and students.
+                        </p>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com" name="email">
-              <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password" name="password">
-              <label for="floatingPassword">Password</label>
-            </div>
-            <div class="form-floating mb-3">
-					  <?php echo $error; ?>
-					  </div>
-            <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
-            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
-            <hr class="my-4">
-            <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
-            <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-4" type="submit">
-              <svg class="bi me-1" width="16" height="16"><use xlink:href="#twitter"/></svg>
-              Sign up with Twitter
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
-              <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
-              Sign up with Facebook
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-              <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
-              Sign up with GitHub
-            </button>
-          </form>
+
         </div>
-      <?php echo form_close(); ?>
-    </div>
-  </div>
+
+
+        <div class="brand-footer">
+            © <?= date('Y') ?> UniStudio
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE -->
+    <section class="signup-form-section">
+
+        <div class="signup-top">
+
+            <span>
+                Already have an account?
+            </span>
+
+            <a
+                href="<?= base_url('login') ?>"
+                class="btn btn-outline-dark">
+                Log in
+            </a>
+
+        </div>
+
+
+        <div class="signup-form-wrapper">
+
+            <div class="signup-heading">
+
+                <span class="mobile-logo">
+                    UniStudio
+                </span>
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Start using UniStudio for free.
+                </p>
+
+            </div>
+
+
+            <?php if (!empty($error)): ?>
+
+                <div class="alert alert-danger">
+                    <?= $error ?>
+                </div>
+
+            <?php endif; ?>
+
+
+            <?php echo form_open(base_url('signup/do_signup')); ?>
+
+
+                <!-- NAME -->
+                <div class="mb-3">
+
+                    <label
+                        for="fullname"
+                        class="form-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="fullname"
+                        name="fullname"
+                        placeholder="Choose a username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="mb-3">
+
+                    <label
+                        for="email"
+                        class="form-label">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="name@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="mb-2">
+
+                    <label
+                        for="password"
+                        class="form-label">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle">
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD HELP -->
+                <div class="password-help">
+
+                    <span>
+                        Your password must contain:
+                    </span>
+
+                    <ul>
+                        <li>At least 8 characters</li>
+                        <li>At least one uppercase letter</li>
+                        <li>At least one lowercase letter</li>
+                        <li>At least one number</li>
+                    </ul>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <div class="form-check terms-check">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="terms">
+
+                        I agree to the
+                        <a href="#">Terms of Use</a>
+                        and
+                        <a href="#">Privacy Policy</a>.
+
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    class="btn btn-dark signup-button">
+                    Create account
+                </button>
+
+
+                <div class="login-mobile">
+
+                    Already have an account?
+
+                    <a href="<?= base_url('login') ?>">
+                        Log in
+                    </a>
+
+                </div>
+
+
+            <?php echo form_close(); ?>
+
+        </div>
+
+    </section>
+
 </div>
 
-<div class="b-example-divider"></div>
 
+<script>
+const password = document.getElementById('password');
+const toggle = document.getElementById('passwordToggle');
 
-    <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+toggle.addEventListener('click', function () {
 
-      
-  </body>
+    if (password.type === 'password') {
+        password.type = 'text';
+        toggle.textContent = 'Hide';
+    } else {
+        password.type = 'password';
+        toggle.textContent = 'Show';
+    }
+
+});
+</script>
+
+</body>
 </html>
-
-<!-- hash=md5(rdand()) -->

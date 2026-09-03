@@ -19,11 +19,11 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index()
-	{	
-		// $data['img_path'] = 'cat2.jpg';
-		// $data['filename'] = 'cat2.jpg';
-		// $this->load->view('header');
-		$this->load->view('header_signup');
+	{	        
+		$this->load->model('file_model');
+        $data['files'] = $this->file_model->get_files();
+		$this->load->view('header');
+		$this->load->view('main_page',$data);
 		$this->load->view('footer');
 	}
 }

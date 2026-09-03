@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class videos extends CI_Controller {
+class uploader_channel extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,10 +20,15 @@ class videos extends CI_Controller {
 	 */
 	public function index()
 	{
+		if (!$this->session->userdata('logged_in')) {
+        redirect('login');
+    }
 
-	$data['img_path'] = 'it.jpg';
-	$data['filename'] = 'it.jpg';
+    $this->load->model('file_model');
+    $username = $this->session->userdata('username');
+	$data['files'] = $this->file_model->get_files_by_username($username);
+    $data['username'] = $username;
 	$this->load->view('header');
-	$this->load->view('courses', $data);
+	$this->load->view('personal_channel', $data);
 	}
 }

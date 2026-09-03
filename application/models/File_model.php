@@ -3,33 +3,17 @@
  class File_model extends CI_Model{
 
     // upload file
-    public function upload($filename, $path, $username,$subject,$description){
+    function upload($filename, $path, $file_type,$username,$subject,$description){
 
         $data = array(
             'filename' => $filename,
             'path' => $path,
+            'file_type'   => $file_type,
             'username' => $username,
             'subject' => $subject,
             'description' => $description
         );
         $query = $this->db->insert('files', $data);
-        // $data2 = array(
-        //     'name' => $filename,
-        //     'subject' => $subject,
-        //     'description' => $description
-        // );
-        // $query2 = $this->db->insert('wishlist', $data2);
-    }
-
-    public function upload_video($coursename, $path, $username){
-
-        $data = array(
-            'coursename' => $coursename,
-            'path' => $path,
-            'username' => $username
-        );
-        $query = $this->db->insert('videos', $data);
-
     }
 
     function fetch_data($query)
@@ -43,24 +27,22 @@
             $this->db->like('filename', $query);
             $this->db->or_like('username', $query);
             $this->db->order_by('filename', 'DESC');
-            return $this->db->get();
+            return $this->db->get()->result();
         }
     }
 
-    function fetch_images($filename){
-        $this->db->like('filename', $filename);
-        $result = $this->db->get('files',3);
-        return $result;
-    }
 
-    function fetch_All(){
-        $result=$this->db->get('files');
-        return $result;
-    }
+    public function search_files($keyword)
+    {
+        $this->db->group_start();
+        $this->db->like('subject',$keyword);
+        $this->db->or_like('description',$keyword);
+        $this->db->or_like('username',$keyword);
+        $this->db->group_end();
 
-    function fetch_video(){
-        $result=$this->db->get('videos');
-        return $result;
+        $this->db->order_by('id','DESC');
+
+        return $this->db->get('files')->result();
     }
 
     function do_wishlist(){
@@ -80,48 +62,47 @@
 		$this->db->empty_table('wishlist'); 
     }
 
-    function insert_like($name){
-        $this->db->select("*");
-		$this->db->from("files");
-        $this->db->where('filename', $name);
-        $query =$this->db->get();
-		foreach ($query->result() as $row)
-        {
-            $name = $row->filename;
-            $subject = $row->subject;
-            $description = $row->description;
-            $data = array(
-                'name' => $name,
-                'subject' => $subject,
-                'description' => $description
-            );
-        }
-        $query = $this->db->insert('wishlist', $data);
+    function get_files(){
+            $this->db->order_by('id', 'DESC');
+            return $this->db->get('files')->result();
     }
 
-
-    function insert_rating($rating,$id)
+    function get_file_by_id($id)
     {
-        
-        $data['rating'] = $rating;
-        $this->db->where('vid', $id);
-        $query = $this->db->update('videos', $data);
+        return $this->db
+            ->where('id', $id)
+            ->get('files')
+            ->row();
     }
 
-    function fetch_rating($id)
+    public function get_files_by_username($username)
     {
-        if($id == '')
-        {
-            return null;
-        }else{
-            //$this->db->select("*");
-            //$this->db->from("videos");
-           // $this->db->where('vid', $id);
-            //$query = $this->db->get('videos');
-            $query = "SELECT * FROM videos WHERE vid=$id";
-            //$query =$this->db->get();
-            $res = $this->db->query($query);
-            return $res->row();
-        }
+        $this->db->where('username',$username);
+        $this->db->order_by('id','DESC');
+
+        return $this->db->get('files')->result();
     }
+    
+    function increase_views($id)
+    {
+        $this->db->set('views', 'views + 1', FALSE);
+        $this->db->where('id', $id);
+        return $this->db->update('files');
+    }
+
+    function increase_likes($id)
+    {
+        $this->db->set('likes', 'likes + 1', FALSE);
+        $this->db->where('id', $id);
+        return $this->db->update('files');
+    }
+
+    public function increase_dislikes($id)
+    {
+        $this->db->set('dislikes', 'dislikes + 1', FALSE);
+        $this->db->where('id', $id);
+        return $this->db->update('files');
+    }
+
 }
+
