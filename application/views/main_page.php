@@ -171,15 +171,15 @@
 
 
         <?php if (!empty($files)): ?>
-
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+                <?php
+                $s3BaseUrl =
+                    'https://unistudio-product-files-wilson.s3.ap-southeast-2.amazonaws.com/';
+                ?>
 
                 <?php foreach ($files as $file): ?>
-
                     <div class="col">
-
                     <div class="product-card position-relative">
-
                         <a
                             href="<?= base_url('products/watch/' . $file->id) ?>"
                             class="product-card-link"
@@ -193,7 +193,6 @@
                                 )
                             );
                             ?>
-
                             <div class="product-image-container">
 
                                 <?php if (
@@ -203,25 +202,22 @@
                                 ): ?>
 
                                     <img
-                                        src="<?= base_url(
-                                            'uploads/' .
-                                            rawurlencode($file->filename)
-                                        ) ?>"
+                                        src="<?= $s3BaseUrl . $file->filename ?>"
                                         class="product-image"
                                         alt="<?= html_escape($file->subject) ?>"
                                     >
 
                                 <?php elseif ($extension === 'mp4'): ?>
-
+                                    <?php
+                                    $s3BaseUrl =
+                                        'https://unistudio-product-files-wilson.s3.ap-southeast-2.amazonaws.com/';
+                                    ?>
                                     <video
                                         class="product-video"
                                         controls
                                     >
-                                        <source
-                                            src="<?= base_url(
-                                                'uploads/' .
-                                                rawurlencode($file->filename)
-                                            ) ?>"
+                                        <source src="<?= $s3BaseUrl . $file->filename ?>"
+
                                             type="video/mp4"
                                         >
                                     </video>

@@ -79,12 +79,12 @@
                         strpos($file->file_type ?? '', 'image/') === 0 ||
                         in_array($extension, ['jpg', 'jpeg', 'png'])
                     ): ?>
-
+                        <?php
+                        $s3BaseUrl =
+                            'https://unistudio-product-files-wilson.s3.ap-southeast-2.amazonaws.com/';
+                        ?>
                         <img
-                            src="<?= base_url(
-                                'uploads/' .
-                                rawurlencode($file->filename)
-                            ) ?>"
+                            src="<?= $s3BaseUrl . $file->filename ?>"
                             class="product-main-image"
                             alt="<?= html_escape($file->subject) ?>"
                         >
@@ -98,12 +98,13 @@
                         <video
                             class="product-main-video"
                             controls>
-
+                        <?php
+                        $s3BaseUrl =
+                            'https://unistudio-product-files-wilson.s3.ap-southeast-2.amazonaws.com/';
+                        ?>
                             <source
-                                src="<?= base_url(
-                                    'uploads/' .
-                                    rawurlencode($file->filename)
-                                ) ?>"
+                                src="<?= $s3BaseUrl . $file->filename ?>"
+
                                 type="<?= html_escape(
                                     $file->file_type ?? 'video/mp4'
                                 ) ?>"
@@ -597,7 +598,7 @@
 
                                 <p class="comment-content">
 
-                                <?= nl2br(html_escape($comment->content ?? '')) ?>
+                            <?= nl2br(html_escape($comment->content ?? '')) ?>
 
 
                                 </p>

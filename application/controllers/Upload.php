@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
 class Upload extends CI_Controller
 {
     public function index()
@@ -24,28 +26,107 @@ class Upload extends CI_Controller
 		}
 		$this->load->view('template/footer');
     }
-    public function upload_file() {
+
+	public function presign()
+	{
+		// User must be logged in
+		if (!$this->session->userdata('logged_in')) {
+			return $this->output
+				->set_status_header(401)
+				->set_output('Unauthorized');
+		}
+			// Load AWS SDK
+		require_once FCPATH . 'vendor/autoload.php';
+
+		// Get file information sent from JavaScript
+		$fileName = $this->input->post('filename');
+		$fileType = $this->input->post('file_type');
+
+		// Only allow specific MIME types
+		$allowedTypes = array(
+			'image/jpeg',
+			'image/png',
+			'video/mp4'
+		);
+
+		if (!in_array($fileType, $allowedTypes, true)) {
+			return $this->output
+				->set_status_header(400)
+				->set_output('Invalid file type');
+		}
+
+		// Get extension, e.g. jpg or mp4
+		$extension = strtolower(
+			pathinfo($fileName, PATHINFO_EXTENSION)
+		);
+
+		// Generate unique S3 filename
+		$uniqueName = bin2hex(random_bytes(16));
+
+		$s3Key = 'products/' . $uniqueName . '.' . $extension;
+
+		// Connect to S3
+		$s3 = new S3Client(array(
+			'version' => 'latest',
+			'region'  => 'ap-southeast-2'
+		));
+
+		// Prepare upload command
+		$command = $s3->getCommand('PutObject', array(
+			'Bucket'      => 'unistudio-product-files-wilson',
+			'Key'         => $s3Key,
+			'ContentType' => $fileType
+		));
+
+		// Create temporary signed URL
+		$request = $s3->createPresignedRequest(
+			$command,
+			'+10 minutes'
+		);
+
+		// Return URL + S3 key to browser
+		return $this->output
+			->set_content_type('application/json')
+			->set_output(json_encode(array(
+				'upload_url' => (string) $request->getUri(),
+				'key'        => $s3Key
+			)));
+	}
+	public function save_product()
+	{
+		if (!$this->session->userdata('logged_in')) {
+			return $this->output
+				->set_status_header(401)
+				->set_output('Unauthorized');
+		}
+
 		$this->load->model('file_model');
-        $config['upload_path'] = './uploads/';
-		$config['allowed_types'] = 'png|jpg|mp4|mkv';
-		$config['max_size'] = 1000000;
-		$config['max_width'] = 4096;
-		$config['max_height'] = 2048;
-		$this->load->library('upload', $config);
-		$subject = $this->input->post('subject'); 
-		$message = $this->input->post('message'); 
-		if (!$this->upload->do_upload('userfile')) {
-			$this->load->view('header');
-			$data = array('error' => $this->upload->display_errors());
-            $this->load->view('file', $data);
-			$this->load->view('footer');
-		}else{
-			$this->file_model->upload($this->upload->data('file_name'), 
-			$this->upload->data('full_path'),
-			$this->upload->data('file_type'),
-			$this->session->userdata('username'),$subject,$message);
-			redirect('welcome');
-        }
+
+		$subject = $this->input->post('subject');
+		$description = $this->input->post('description');
+		$filename = $this->input->post('filename');
+		$fileType = $this->input->post('file_type');
+
+		$username = $this->session->userdata('username');
+
+		$success = $this->file_model->upload(
+			$filename,
+			null,
+			$fileType,
+			$username,
+			$subject,
+			$description
+		);
+
+		if ($success) {
+			return $this->output
+				->set_status_header(200)
+				->set_output('Product saved');
+		}
+
+		return $this->output
+			->set_status_header(500)
+			->set_output('Database save failed');
 	}
 }
 

@@ -167,7 +167,10 @@
         <?php if (!empty($files)): ?>
 
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
-
+                <?php
+                $s3BaseUrl =
+                    'https://unistudio-product-files-wilson.s3.ap-southeast-2.amazonaws.com/';
+                ?>
                 <?php foreach ($files as $file): ?>
 
                     <div class="col">
@@ -175,15 +178,11 @@
                         <div class="product-card">
 
                             <div class="product-image-container">
-
-                                <img
-                                    src="<?= base_url(
-                                        'uploads/' .
-                                        rawurlencode($file->filename)
-                                    ) ?>"
-                                    class="product-image"
-                                    alt="<?= html_escape($file->subject) ?>"
-                                >
+                            <img
+                                src="<?= $s3BaseUrl . $file->filename ?>"
+                                class="product-image"
+                                alt="<?= html_escape($file->subject) ?>"
+                            >
 
                             </div>
 

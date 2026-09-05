@@ -68,8 +68,7 @@
         <?php endif; ?>
 
 
-        <?php echo form_open_multipart('upload/upload_file'); ?>
-
+        <form id="uploadForm">
         <div class="row g-4">
 
             <!-- LEFT -->
@@ -174,7 +173,7 @@
                             <input
                                 type="file"
                                 name="userfile"
-                                id="upload"
+                                id="userfile"
                                 class="d-none"
                                 accept=".jpg,.jpeg,.png,.mp4"
                                 required
@@ -299,22 +298,148 @@
             </div>
 
         </div>
-
-        <?php echo form_close(); ?>
-
+        </form>
     </div>
 
 </section>
 
 
 <script>
-document.getElementById('upload').addEventListener('change', function () {
-    const fileName = this.files.length > 0
-        ? this.files[0].name
-        : 'No file selected';
+document
+    .getElementById('uploadForm')
+    .addEventListener('submit', async function (event) {
 
-    document.getElementById('selected-file').textContent = fileName;
-});
+        // Stop normal HTML form submission
+        event.preventDefault();
+
+        const fileInput =
+            document.getElementById('userfile');
+
+        const file = fileInput.files[0];
+
+        const subject =
+            document.getElementById('subject').value;
+
+        const description =
+            document.getElementById('description').value;
+
+        if (!file) {
+            alert('Please choose a file');
+            return;
+        }
+
+        try {
+
+            // ---------------------------------
+            // STEP 1
+            // Ask CodeIgniter for S3 upload URL
+            // ---------------------------------
+
+            const presignData = new FormData();
+
+            presignData.append(
+                'filename',
+                file.name
+            );
+
+            presignData.append(
+                'file_type',
+                file.type
+            );
+
+            const presignResponse = await fetch(
+                '<?= base_url('upload/presign') ?>',
+                {
+                    method: 'POST',
+                    body: presignData
+                }
+            );
+
+            if (!presignResponse.ok) {
+                throw new Error(
+                    'Could not create upload URL'
+                );
+            }
+
+            const presignResult =
+                await presignResponse.json();
+
+            // ---------------------------------
+            // STEP 2
+            // Upload file DIRECTLY to S3
+            // ---------------------------------
+
+            const s3Response = await fetch(
+                presignResult.upload_url,
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type': file.type
+                    },
+
+                    body: file
+                }
+            );
+
+            if (!s3Response.ok) {
+                throw new Error(
+                    'S3 upload failed'
+                );
+            }
+
+            // ---------------------------------
+            // STEP 3
+            // Save product information in RDS
+            // ---------------------------------
+
+            const productData = new FormData();
+
+            productData.append(
+                'subject',
+                subject
+            );
+
+            productData.append(
+                'description',
+                description
+            );
+
+            productData.append(
+                'filename',
+                presignResult.key
+            );
+
+            productData.append(
+                'file_type',
+                file.type
+            );
+
+            const saveResponse = await fetch(
+                '<?= base_url('upload/save_product') ?>',
+                {
+                    method: 'POST',
+                    body: productData
+                }
+            );
+
+            if (!saveResponse.ok) {
+                throw new Error(
+                    'Could not save product'
+                );
+            }
+
+            // Success
+            window.location.href =
+                '<?= base_url('welcome') ?>';
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(error.message);
+        }
+    });
 </script>
 
 </body>
