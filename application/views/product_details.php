@@ -381,7 +381,7 @@
             <div class="creator-actions">
 
                 <a
-                    href="<?= base_url('uploader_channel/views'.rawurlencode($file->username)) ?>"
+                    href="<?= base_url('uploader_channel/view/'.rawurlencode($file->username)) ?>"
                     class="btn btn-outline-dark">
 
                     View channel
@@ -390,10 +390,11 @@
 
                 <button
                     type="button"
-                    class="btn btn-dark">
-
+                    id="subscribeButton"
+                    class="btn btn-dark"
+                    data-uploader="<?= html_escape($file->username) ?>"
+                >
                     Subscribe
-
                 </button>
 
             </div>
@@ -718,7 +719,33 @@
 
 </section>
 
+<script>
+    document
+    .getElementById('subscribeButton')
+    .addEventListener('click', async function () {
 
+        const data = new FormData();
+
+        data.append(
+            'uploader',
+            this.dataset.uploader
+        );
+
+        const response = await fetch(
+            '<?= base_url('uploader_channel/subscribe') ?>',
+            {
+                method: 'POST',
+                body: data
+            }
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+            this.textContent = 'Subscribed';
+        }
+    });
+</script>
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js">
 </script>
