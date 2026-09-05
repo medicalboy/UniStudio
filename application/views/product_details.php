@@ -381,7 +381,7 @@
             <div class="creator-actions">
 
                 <a
-                    href="<?= base_url('uploader_channel') ?>"
+                    href="<?= base_url('uploader_channel/views'.rawurlencode($file->username)) ?>"
                     class="btn btn-outline-dark">
 
                     View channel

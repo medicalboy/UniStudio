@@ -36,22 +36,65 @@
                 </h1>
 
                 <p>
+                <?php if ($is_own_channel): ?>
+
                     Manage your uploaded products, review your content,
                     and keep building your personal storefront.
+
+                <?php else: ?>
+
+                    Explore products and learning resources shared by
+                    <?= html_escape($username) ?>.
+
+                <?php endif; ?>
                 </p>
 
             </div>
 
             <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+            <?php if ($is_own_channel): ?>
 
                 <a
                     href="<?= base_url('upload') ?>"
-                    class="btn btn-light btn-lg">
+                    class="btn btn-light btn-lg"
+                >
                     + Upload Product
                 </a>
 
-            </div>
+            <?php else: ?>
+                <?php if (!$current_user): ?>
 
+                    <a
+                        href="<?= base_url('login') ?>"
+                        class="btn btn-light btn-lg"
+                    >
+                        Log in to subscribe
+                    </a>
+
+                <?php elseif ($is_subscribed): ?>
+                    <a
+                        href="<?= base_url(
+                            'uploader_channel/unsubscribe/' .
+                            rawurlencode($username)
+                        ) ?>"
+                        class="btn btn-outline-light btn-lg"
+                    >
+                        Subscribed
+                    </a>
+                <?php else: ?>
+
+                    <a
+                        href="<?= base_url(
+                            'uploader_channel/subscribe/' .
+                            rawurlencode($username)
+                        ) ?>"
+                        class="btn btn-light btn-lg"
+                    >
+                        Subscribe
+                    </a>
+
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
 
     </div>
@@ -74,7 +117,10 @@
                 <h3>
                     <?= html_escape($username) ?>
                 </h3>
-
+                <p>
+                    <?= (int) $subscriber_count ?>
+                    subscribers
+                </p>
                 <p>
                     UniStudio Creator
                 </p>
@@ -142,7 +188,10 @@
             <div>
 
                 <span class="section-label">
-                    Your catalogue
+                    <?= $is_own_channel
+                        ? 'Your catalogue'
+                        : html_escape($username) . "'s catalogue"
+                    ?>
                 </span>
 
                 <h2>
@@ -150,17 +199,30 @@
                 </h2>
 
                 <p>
-                    Products currently published on your channel.
+                    <?php if ($is_own_channel): ?>
+
+                        Products currently published on your channel.
+
+                    <?php else: ?>
+
+                        Products published by
+                        <?= html_escape($username) ?>.
+
+                    <?php endif; ?>
                 </p>
 
             </div>
 
-            <a
-                href="<?= base_url('upload') ?>"
-                class="upload-link">
-                Add new product →
-            </a>
+            <?php if ($is_own_channel): ?>
 
+                <a
+                    href="<?= base_url('upload') ?>"
+                    class="upload-link"
+                >
+                    Add new product →
+                </a>
+
+            <?php endif; ?>
         </div>
 
 
@@ -218,15 +280,19 @@
                                         class="btn btn-outline-dark btn-sm">
                                         View
                                     </a>
+                                    <?php if ($is_own_channel): ?>
 
-                                    <a
-                                        href="<?= base_url(
-                                            'products/load_file/' .
-                                            $file->id
-                                        ) ?>"
-                                        class="manage-link">
-                                        Manage
-                                    </a>
+                                        <a
+                                            href="<?= base_url(
+                                                'products/load_file/' .
+                                                $file->id
+                                            ) ?>"
+                                            class="manage-link"
+                                        >
+                                            Manage
+                                        </a>
+
+                                    <?php endif; ?>
 
                                 </div>
 
@@ -248,6 +314,8 @@
                     +
                 </div>
 
+            <?php if ($is_own_channel): ?>
+
                 <h3>
                     Your channel is empty
                 </h3>
@@ -258,9 +326,23 @@
 
                 <a
                     href="<?= base_url('upload') ?>"
-                    class="btn btn-dark">
+                    class="btn btn-dark"
+                >
                     Upload your first product
                 </a>
+
+            <?php else: ?>
+
+                <h3>
+                    No products yet
+                </h3>
+
+                <p>
+                    <?= html_escape($username) ?>
+                    hasn't published any products yet.
+                </p>
+
+            <?php endif; ?>
 
             </div>
 
@@ -272,6 +354,8 @@
 
 
 <!-- CREATOR CTA -->
+<?php if ($is_own_channel): ?>
+
 <section class="creator-cta">
 
     <div class="container">
@@ -297,7 +381,8 @@
 
             <a
                 href="<?= base_url('upload') ?>"
-                class="btn btn-light btn-lg">
+                class="btn btn-light btn-lg"
+            >
                 Upload Product
             </a>
 
@@ -306,6 +391,8 @@
     </div>
 
 </section>
+
+<?php endif; ?>
 
 </body>
 </html>

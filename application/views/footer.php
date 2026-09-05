@@ -64,7 +64,7 @@
 
                     <li>
                         <a href="<?= base_url('uploader_channel') ?>">
-                            Tutor Channel
+                            Your Channel
                         </a>
                     </li>
 

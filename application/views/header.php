@@ -263,15 +263,15 @@
                 </a>
 
                 <a href="<?= base_url('products') ?>">
-                    Products
+                    Market
                 </a>
 
                 <a href="<?= base_url('uploader_channel') ?>">
-                    Tutor Channel
+                    Your Channel
                 </a>
 
                 <a href="<?= base_url('products/fetch_detail') ?>">
-                    Student Portal
+                    Subscriptions
                 </a>
 
                 <a href="<?= base_url('upload') ?>">
