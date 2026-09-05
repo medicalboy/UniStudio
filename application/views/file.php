@@ -305,6 +305,21 @@
 
 
 <script>
+// Show selected filename
+document
+    .getElementById('userfile')
+    .addEventListener('change', function () {
+
+        const fileName = this.files.length > 0
+            ? this.files[0].name
+            : 'No file selected';
+
+        document
+            .getElementById('selected-file')
+            .textContent = fileName;
+    });
+
+
 document
     .getElementById('uploadForm')
     .addEventListener('submit', async function (event) {
