@@ -25,9 +25,16 @@ class uploader_channel extends CI_Controller {
     }
 
     $this->load->model('file_model');
+	$this->load->model('subscription_model');
     $username = $this->session->userdata('username');
 	$data['files'] = $this->file_model->get_files_by_username($username);
     $data['username'] = $username;
+	$data['current_user'] = $username;
+    $data['is_own_channel'] = true;
+    $data['is_subscribed'] = false;
+	    $data['subscriber_count'] =
+        $this->subscription_model
+             ->count_subscribers($username);
 	$this->load->view('header');
 	$this->load->view('personal_channel', $data);
 	}
@@ -74,7 +81,7 @@ class uploader_channel extends CI_Controller {
 		$this->load->view('personal_channel', $data);
 		$this->load->view('footer');
 	}
-	
+
 	public function subscribe($uploader)
 	{
 		if (!$this->session->userdata('logged_in')) {
