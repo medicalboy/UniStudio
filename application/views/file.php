@@ -149,7 +149,7 @@
                             </label>
 
                             <label
-                                for="upload"
+                                for="userfile"
                                 class="upload-drop-zone">
 
                                 <div class="upload-icon">
