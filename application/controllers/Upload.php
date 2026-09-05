@@ -111,7 +111,6 @@ class Upload extends CI_Controller
 
 		$success = $this->file_model->upload(
 			$filename,
-			null,
 			$fileType,
 			$username,
 			$subject,
