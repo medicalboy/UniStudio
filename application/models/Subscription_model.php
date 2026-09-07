@@ -86,4 +86,22 @@ class Subscription_model extends CI_Model
                         'subscriptions'
                     );
     }
+
+    public function get_subscriptions($subscriber)
+    {
+        $this->db->where('subscriber_username', $subscriber);
+
+        $subscriptions =
+            $this->db->get('subscriptions')->result();
+
+        foreach ($subscriptions as $subscription) {
+
+            $subscription->subscriber_count =
+                $this->count_subscribers(
+                    $subscription->uploader_username
+                );
+        }
+
+        return $subscriptions;
+    }
 }

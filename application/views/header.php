@@ -270,7 +270,7 @@
                     Your Channel
                 </a>
 
-                <a href="<?= base_url('products/fetch_detail') ?>">
+                <a href="<?= base_url('products/get_subscrptions') ?>">
                     Subscriptions
                 </a>
 

@@ -57,8 +57,8 @@
                     </li>
 
                     <li>
-                        <a href="<?= base_url('products/fetch_detail') ?>">
-                            Student Portal
+                        <a href="<?= base_url('products/get_subscrptions') ?>">
+                            Subscriptions
                         </a>
                     </li>
 

@@ -24,6 +24,10 @@ class Products extends CI_Controller {
 		$data['error']= "";
 		$this->load->helper('form');
 		$this->load->helper('url');
+		$this->load->model('file_model');
+
+		$data['files'] =
+			$this->file_model->get_files();
 		// $this->load->view('header');
 		if (!$this->session->userdata('logged_in'))//check if user already login
 		{	
@@ -38,14 +42,14 @@ class Products extends CI_Controller {
 					);
 					$this->session->set_userdata($user_data); //set user status to login in session
 					$this->load->view('header');
-					$this->load->view('course_details'); //if user already logined show main page
+					$this->load->view('products', $data); //if user already logined show main page
 				}
 			}else{
 				$this->load->view('login', $data);	//if username password incorrect, show error msg and ask user to login
 			}
 		}else{
 			$this->load->view('header');
-			$this->load->view('course_details'); //if user already logined show main page
+			$this->load->view('products'); //if user already logined show main page
 		}
 		$this->load->view('template/footer');
 	}
@@ -95,18 +99,19 @@ class Products extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function fetch_detail(){
-		$this->load->model('file_model');
-        $data['coursename'] = $this->file_model->do_wishlist();
+	public function get_subscrptions(){
+		$this->load->model('subscription_model');
+		$subscriber = $this->session->userdata('username');
+        $data['my_subscriptions'] = $this->subscription_model->get_subscriptions($subscriber);
 		$this->load->view('header');
-		$this->load->view('wishlist',$data);
+		$this->load->view('subscriptions',$data);
 	}
 
 
 	public function clearlist(){
 		$this->load->model('file_model');
         $this->file_model->clear_list();
-		redirect(base_url().'products/fetch_detail');
+		redirect(base_url().'products/get_subscrptions');
 	}
 
 

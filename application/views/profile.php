@@ -196,7 +196,7 @@
 
 
                     <a
-                        href="<?= base_url('products/fetch_detail') ?>"
+                        href="<?= base_url('products/get_subscrptions') ?>"
                         class="profile-menu-link">
 
                         <span>▶</span>
@@ -491,7 +491,7 @@
 
                             <a
                                 href="<?= base_url(
-                                    'products/fetch_detail'
+                                    'products/get_subscrptions'
                                 ) ?>"
                                 class="workspace-link">
 

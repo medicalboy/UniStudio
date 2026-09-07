@@ -198,7 +198,7 @@
 
 
                     <a
-                        href="<?= base_url('products/fetch_detail') ?>"
+                        href="<?= base_url('products/get_subscrptions') ?>"
                         class="sidebar-link">
 
                         <span class="sidebar-icon">▶</span>
@@ -385,7 +385,7 @@
                     <div class="col-xl-6">
 
                         <a
-                            href="<?= base_url('products/fetch_detail') ?>"
+                            href="<?= base_url('products/get_subscrptions') ?>"
                             class="dashboard-card-link">
 
                             <article class="dashboard-card">
