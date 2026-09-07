@@ -92,6 +92,108 @@ class Upload extends CI_Controller
 				'key'        => $s3Key
 			)));
 	}
+	public function note()
+	{
+		if (!$this->session->userdata('logged_in')) {
+			redirect('login');
+		}
+
+		$this->load->view('header');
+
+		$this->load->view(
+			'upload_note',
+			array('error' => '')
+		);
+
+		$this->load->view('template/footer');
+	}
+	public function save_note()
+	{
+		// User must be logged in
+		if (!$this->session->userdata('logged_in')) {
+
+			return $this->output
+				->set_status_header(401)
+				->set_output('Please log in');
+		}
+
+
+		// Get data from upload_note.php
+		$subject =
+			$this->input->post('subject');
+
+		$description =
+			$this->input->post('description');
+
+		$filename =
+			$this->input->post('filename');
+
+		$file_type =
+			$this->input->post('file_type');
+
+		$username =
+			$this->session->userdata('username');
+
+
+		// Check required data
+		if (!$subject || !$filename) {
+
+			return $this->output
+				->set_status_header(400)
+				->set_output('Missing required information');
+		}
+
+
+		// Data for files table
+		$data = array(
+
+			'username' => $username,
+
+			'subject' => $subject,
+
+			'description' => $description,
+
+			'filename' => $filename,
+
+			'file_type' => $file_type,
+
+			'views' => 0,
+
+			'likes' => 0,
+
+			'dislikes' => 0
+
+		);
+
+
+		// Save to database
+		$this->db->insert(
+			'files',
+			$data
+		);
+
+
+		// Check database insert
+		if ($this->db->affected_rows() !== 1) {
+
+			return $this->output
+				->set_status_header(500)
+				->set_output('Could not save Note');
+		}
+
+
+		// Send success response
+		return $this->output
+			->set_content_type('application/json')
+			->set_output(
+				json_encode(
+					array(
+						'success' => true
+					)
+				)
+			);
+	}
+
 	public function save_product()
 	{
 		if (!$this->session->userdata('logged_in')) {

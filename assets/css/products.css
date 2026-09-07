@@ -135,6 +135,8 @@ body {
     background: #fff;
     overflow: hidden;
     display: flex;
+    position: relative;
+    cursor: pointer;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -143,7 +145,14 @@ body {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
-
+.product-card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+}
+.product-card:hover .product-title {
+    text-decoration: underline;
+}
 .product-image-container {
     height: 180px;
     padding: 16px;
@@ -305,24 +314,5 @@ body {
 
     .cta-box .btn {
         margin-top: 20px;
-    }
-    .product-card {
-    position: relative;
-    cursor: pointer;
-}
-
-    .product-card-link {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-    }
-
-    .product-card .add-cart-button {
-        position: relative;
-        z-index: 2;
-    }
-
-    .product-card:hover .product-title {
-        text-decoration: underline;
     }
 }
