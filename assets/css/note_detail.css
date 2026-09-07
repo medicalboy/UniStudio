@@ -5,14 +5,14 @@
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
 
+    align-items: start;
+
     background: white;
 
     border: 1px solid #e6e6e6;
     border-radius: 16px;
 
     overflow: hidden;
-
-    min-height: 650px;
 }
 
 
@@ -22,16 +22,17 @@
     background: #f7f7f7;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 
-    min-height: 650px;
+    overflow: hidden;
 }
-
 .note-media img,
 .note-media video {
+    display: block;
+
     width: 100%;
-    height: 100%;
+    height: auto;
 
     max-height: 750px;
 
@@ -205,7 +206,11 @@
     }
 
     .note-media {
-        min-height: 400px;
+        min-height: 0;
+    }
+    .note-media img,
+    .note-media video {
+        max-height: none;
     }
 
     .note-content {

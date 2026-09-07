@@ -129,16 +129,16 @@ body {
 }
 
 .product-card {
-    height: 100%;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
     background: #fff;
     overflow: hidden;
-    display: flex;
     position: relative;
     cursor: pointer;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .product-card:hover {
@@ -180,7 +180,6 @@ body {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    flex: 1;
 }
 
 .product-title {
@@ -200,7 +199,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
+
+    /* REMOVE margin-top: auto */
+
+    margin-top: 12px;
     gap: 8px;
 }
 
