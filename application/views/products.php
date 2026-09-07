@@ -73,7 +73,10 @@
                                 <?php if (
                                     $extension === 'jpg' ||
                                     $extension === 'jpeg' ||
-                                    $extension === 'png'
+                                    $extension === 'png' ||
+                                    $extension === 'webp' ||
+                                    $extension === 'heic' ||
+                                    $extension === 'heif'
                                 ): ?>
 
                                     <img
@@ -82,7 +85,11 @@
                                         alt="<?= html_escape($file->subject) ?>"
                                     >
 
-                                <?php elseif ($extension === 'mp4'): ?>
+                                <?php elseif (
+                                        $extension === 'mp4' ||
+                                        $extension === 'mov' ||
+                                        $extension === 'm4v'
+                                ): ?>
 
                                     <video
                                         class="product-video"
@@ -105,10 +112,6 @@
                                 <h5 class="product-title">
                                     <?= html_escape($file->subject) ?>
                                 </h5>
-
-                                <p class="product-description">
-                                    <?= html_escape($file->description) ?>
-                                </p>
 
 
                                 <div class="product-actions">

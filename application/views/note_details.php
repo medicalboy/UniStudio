@@ -30,7 +30,9 @@ $currentUser =
             $extension === 'jpg' ||
             $extension === 'jpeg' ||
             $extension === 'png' ||
-            $extension === 'webp'
+            $extension === 'webp' ||
+            $extension === 'heic' ||
+            $extension === 'heif'
         ): ?>
 
             <img
@@ -38,7 +40,9 @@ $currentUser =
                 alt="<?= html_escape($note->subject) ?>"
             >
 
-        <?php elseif ($extension === 'mp4'): ?>
+        <?php elseif ($extension === 'mp4' ||
+                    $extension === 'mov' ||
+                    $extension === 'm4v'): ?>
 
             <video controls>
                 <source

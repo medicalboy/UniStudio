@@ -220,7 +220,9 @@
                                     $extension === 'jpg' ||
                                     $extension === 'jpeg' ||
                                     $extension === 'png' ||
-                                    $extension === 'webp'
+                                    $extension === 'webp' ||
+                                    $extension === 'heic' ||
+                                    $extension === 'heif'
                                 ): ?>
 
 
@@ -236,7 +238,10 @@
 
 
                                 <?php elseif (
-                                    $extension === 'mp4'
+                                    $extension === 'mp4' ||
+                                    $extension === 'mov' ||
+                                    $extension === 'm4v'
+
                                 ): ?>
 
 
@@ -278,18 +283,6 @@
                                     ) ?>
 
                                 </h5>
-
-
-
-                                <!-- DESCRIPTION -->
-
-                                <p class="product-description">
-
-                                    <?= html_escape(
-                                        $file->description ?? ''
-                                    ) ?>
-
-                                </p>
 
 
 

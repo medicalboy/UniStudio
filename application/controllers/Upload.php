@@ -44,9 +44,17 @@ class Upload extends CI_Controller
 
 		// Only allow specific MIME types
 		$allowedTypes = array(
+			// Images
 			'image/jpeg',
 			'image/png',
-			'video/mp4'
+			'image/webp',
+			'image/heic',
+			'image/heif',
+
+			// Videos
+			'video/mp4',
+			'video/quicktime',
+			'video/x-m4v'
 		);
 
 		if (!in_array($fileType, $allowedTypes, true)) {

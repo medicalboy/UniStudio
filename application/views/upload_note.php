@@ -210,7 +210,7 @@
                                     name="userfile"
                                     id="userfile"
                                     class="d-none"
-                                    accept=".jpg,.jpeg,.png,.mp4"
+                                    accept=".jpg,.jpeg,.png,.webp,.heic,.heif,.mp4,.mov,.m4v"
                                     required
                                 >
 
