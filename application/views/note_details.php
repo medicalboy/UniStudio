@@ -40,14 +40,15 @@ $currentUser =
                 alt="<?= html_escape($note->subject) ?>"
             >
 
-        <?php elseif ($extension === 'mp4' ||
-                    $extension === 'mov' ||
-                    $extension === 'm4v'): ?>
+        <?php elseif (
+            $extension === 'mp4' ||
+            $extension === 'mov' ||
+            $extension === 'm4v'
+        ): ?>
 
-            <video controls>
+            <video controls playsinline>
                 <source
                     src="<?= $s3BaseUrl . $note->filename ?>"
-                    type="video/mp4"
                 >
             </video>
 
@@ -56,90 +57,144 @@ $currentUser =
     </div>
 
 
-    <!-- RIGHT: NOTE DETAILS -->
-    <div class="note-content">
+    <!-- RIGHT SIDE -->
+    <div class="note-right">
 
-        <!-- USER -->
-        <div class="note-user">
 
-            <div class="note-user-info">
+        <!-- SCROLLABLE CONTENT -->
+        <div class="note-scroll">
 
-                <strong>
-                    <?= html_escape($note->username) ?>
-                </strong>
 
-                <span>
-                    <?= (int) $subscriber_count ?>
-                    subscribers
-                </span>
+            <!-- NOTE DETAILS -->
+            <div class="note-content">
+
+                <!-- USER -->
+                <div class="note-user">
+
+                    <div class="note-user-info">
+
+                        <strong>
+                            <?= html_escape($note->username) ?>
+                        </strong>
+
+                        <span>
+                            <?= (int) $subscriber_count ?>
+                            subscribers
+                        </span>
+
+                    </div>
+
+
+                    <?php if (
+                        $currentUser &&
+                        $currentUser !== $note->username
+                    ): ?>
+
+                        <button
+                            type="button"
+                            id="subscribeButton"
+                            class="subscribe-button"
+                            data-uploader="<?= html_escape(
+                                $note->username
+                            ) ?>"
+                        >
+                            <?= $is_subscribed
+                                ? 'Subscribed'
+                                : 'Subscribe'
+                            ?>
+                        </button>
+
+                    <?php endif; ?>
+
+                </div>
+
+
+                <!-- TITLE -->
+                <h1 class="note-title">
+                    <?= html_escape($note->subject) ?>
+                </h1>
+
+
+                <!-- DESCRIPTION -->
+                <div class="note-description">
+
+                    <?= nl2br(
+                        html_escape(
+                            $note->description ?? ''
+                        )
+                    ) ?>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="note-actions">
+
+                    <button
+                        type="button"
+                        class="note-action-button"
+                    >
+                        ♡ <?= (int) $note->likes ?>
+                    </button>
+
+                    <span>
+                        👁 <?= (int) $note->views ?> views
+                    </span>
+
+                </div>
 
             </div>
 
 
-            <?php if (
-                $currentUser &&
-                $currentUser !== $note->username
-            ): ?>
+            <!-- COMMENTS -->
+            <div class="note-comments">
 
-                <button
-                    type="button"
-                    id="subscribeButton"
-                    class="subscribe-button"
-                    data-uploader="<?= html_escape(
-                        $note->username
-                    ) ?>"
-                >
-                    <?= $is_subscribed
-                        ? 'Subscribed'
-                        : 'Subscribe'
-                    ?>
-                </button>
-
-            <?php endif; ?>
-
-        </div>
+                <h4>
+                    Comments
+                </h4>
 
 
-        <!-- TITLE -->
-        <h1 class="note-title">
-            <?= html_escape($note->subject) ?>
-        </h1>
+                <div class="comment-list">
 
+                    <?php if (empty($comments)): ?>
 
-        <!-- DESCRIPTION -->
-        <div class="note-description">
-            <?= nl2br(
-                html_escape(
-                    $note->description ?? ''
-                )
-            ) ?>
-        </div>
+                        <p class="no-comments">
+                            No comments yet.
+                        </p>
 
+                    <?php else: ?>
 
-        <!-- ACTIONS -->
-        <div class="note-actions">
+                        <?php foreach ($comments as $comment): ?>
 
-            <button type="button" class="note-action-button">
-                ♡ <?= (int) $note->likes ?>
-            </button>
+                            <div class="comment">
 
-            <span>
-                👁 <?= (int) $note->views ?> views
-            </span>
+                                <strong>
+                                    <?= html_escape(
+                                        $comment->username
+                                    ) ?>
+                                </strong>
+
+                                <p>
+                                    <?= html_escape(
+                                        $comment->content
+                                    ) ?>
+                                </p>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <hr>
-
-
-        <!-- COMMENTS -->
-        <div class="note-comments">
-
-            <h4>
-                Comments
-            </h4>
-
+        <!-- FIXED COMMENT BAR -->
+        <div class="note-comment-bar">
 
             <?php if ($currentUser): ?>
 
@@ -156,9 +211,11 @@ $currentUser =
                         type="hidden"
                         name="return_url"
                         value="<?= base_url(
-                            'notes/view/' . $note->id
+                            'notes/view/' .
+                            $note->id
                         ) ?>"
                     >
+
                     <textarea
                         name="comment"
                         placeholder="Add a comment..."
@@ -173,48 +230,14 @@ $currentUser =
 
             <?php else: ?>
 
-                <p>
+                <p class="login-comment-message">
                     Please log in to comment.
                 </p>
 
             <?php endif; ?>
 
-
-            <div class="comment-list">
-
-                <?php if (empty($comments)): ?>
-
-                    <p class="no-comments">
-                        No comments yet.
-                    </p>
-
-                <?php else: ?>
-
-                    <?php foreach ($comments as $comment): ?>
-
-                        <div class="comment">
-
-                            <strong>
-                                <?= html_escape(
-                                    $comment->username
-                                ) ?>
-                            </strong>
-
-                            <p>
-                                <?= html_escape(
-                                    $comment->content
-                                ) ?>
-                            </p>
-
-                        </div>
-
-                    <?php endforeach; ?>
-
-                <?php endif; ?>
-
-            </div>
-
         </div>
+
 
     </div>
 

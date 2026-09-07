@@ -1,11 +1,11 @@
 .note-detail-page {
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 1400px;
+    height: 780px;
+
+    margin: 30px auto;
 
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-
-    align-items: start;
+    grid-template-columns: 1fr 1fr;
 
     background: white;
 
@@ -19,10 +19,13 @@
 /* LEFT SIDE */
 
 .note-media {
+    width: 100%;
+    height: 100%;
+
     background: #f7f7f7;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 
     overflow: hidden;
@@ -32,21 +35,36 @@
     display: block;
 
     width: 100%;
-    height: auto;
-
-    max-height: 750px;
+    height: 100%;
 
     object-fit: contain;
 }
+/* RIGHT */
 
-
-/* RIGHT SIDE */
-
-.note-content {
-    padding: 32px;
+.note-right {
+    height: 100%;
 
     display: flex;
     flex-direction: column;
+
+    min-width: 0;
+
+    border-left: 1px solid #e6e6e6;
+}
+
+/* RIGHT SIDE */
+/* SCROLL AREA */
+
+.note-scroll {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+}
+
+.note-content {
+    padding: 32px;
 }
 
 
@@ -136,43 +154,63 @@
     cursor: pointer;
 }
 
+/* BOTTOM COMMENT BAR */
+
+.note-comment-bar {
+    flex-shrink: 0;
+
+    padding: 15px 20px;
+
+    border-top: 1px solid #e6e6e6;
+
+    background: white;
+}
 
 /* COMMENTS */
 
 .note-comments {
-    margin-top: 20px;
+    margin: 0 32px;
+
+    padding: 25px 0 30px;
+
+    border-top: 1px solid #eee;
 }
 
 .comment-form {
     display: flex;
 
+    align-items: center;
+
     gap: 10px;
 
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 .comment-form textarea {
     flex: 1;
 
+    height: 44px;
+    min-height: 44px;
+
     resize: none;
 
-    min-height: 45px;
-
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 22px;
 
-    padding: 10px;
+    padding: 10px 14px;
 }
 
 .comment-form button {
+    height: 44px;
+
     border: none;
 
     background: #212529;
     color: white;
 
-    border-radius: 10px;
+    border-radius: 22px;
 
-    padding: 0 18px;
+    padding: 0 20px;
 }
 
 .comment {
