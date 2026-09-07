@@ -1,4 +1,8 @@
 <!-- PRODUCTS -->
+    <link
+        rel="stylesheet"
+        href="<?= base_url('assets/css/products.css') ?>"
+    >
 <section class="products-section">
 
     <div class="container">

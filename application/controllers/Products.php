@@ -49,7 +49,7 @@ class Products extends CI_Controller {
 			}
 		}else{
 			$this->load->view('header');
-			$this->load->view('products'); //if user already logined show main page
+			$this->load->view('products', $data); //if user already logined show main page
 		}
 		$this->load->view('template/footer');
 	}
